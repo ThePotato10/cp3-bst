@@ -29,13 +29,64 @@ class BST {
         }
     }
 
-    /*boolean search(int key) {
+    boolean search(int key) {
+        Node curr = root;
 
+        while (curr != null) {
+            if (curr.key == key) {
+                return true;
+
+            } else {
+                if (key < curr.key) curr = curr.left;
+                else curr = curr.right;
+
+            }
+        }
+
+        return false;
     }
 
     int remove(int key) {
+        Node curr = root;
 
-    }*/
+        while (curr.left != null || curr.right != null) {
+            if (curr.left != null && curr.left.key == key) {
+                int val = curr.left.key;
+
+                if (curr.left.left == null && curr.left.right == null) curr.left = null;
+                else if (curr.left.left == null) curr.left = curr.left.right;
+                else if (curr.left.right == null) curr.left = curr.left.left;
+                else {
+
+                }
+
+                return val;
+
+            } else if (curr.right != null && curr.right.key == key) {
+                int val = curr.right.key;
+
+                if (curr.right.left == null && curr.right.right == null) curr.right = null;
+                else if (curr.right.left == null) curr.right = curr.right.right;
+                else if (curr.right.right == null) curr.right = curr.right.left;
+                else {
+                    Node replacement = curr.right;
+
+                    while (replacement.left.left != null) replacement = replacement.left;
+
+                    
+                }
+
+                return val;
+
+            } else {
+                if (key < curr.key) curr = curr.left;
+                else curr = curr.right;
+
+            }
+        }
+
+        return Integer.MIN_VALUE;
+    }
 
     public String toString() {
         String treeString = "";
