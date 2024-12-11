@@ -57,7 +57,19 @@ class BST {
                 else if (curr.left.left == null) curr.left = curr.left.right;
                 else if (curr.left.right == null) curr.left = curr.left.left;
                 else {
+                    Node replacement = curr.left;
 
+                    if (replacement.right == null) {
+                        curr.left.key = replacement.key;
+                        curr.left.left = null;
+
+                    } else {
+                        while (replacement.right.right != null) replacement = replacement.right;
+
+                        curr.left.key = replacement.right.key;
+                        replacement.right = null;
+
+                    }
                 }
 
                 return val;
@@ -71,9 +83,17 @@ class BST {
                 else {
                     Node replacement = curr.right;
 
-                    while (replacement.left.left != null) replacement = replacement.left;
+                    if (replacement.left == null) {
+                        curr.right.key = replacement.key;
+                        curr.right.right = null;
 
-                    
+                    } else {
+                        while (replacement.left.left != null) replacement = replacement.left;
+
+                        curr.right.key = replacement.left.key;
+                        replacement.left = null;
+
+                    }
                 }
 
                 return val;
