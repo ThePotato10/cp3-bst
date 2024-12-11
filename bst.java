@@ -7,6 +7,9 @@ class BST {
         root = null;
     }
   
+    // Inserts an element into the correct position in the BST
+    // Precondition: curr is either a valid tree node or null
+    // Postcondition: element is inserted, nothing is returned
     void insert(int key, Node curr) {
         if (root == null) {
             root = new Node(key);
@@ -29,6 +32,9 @@ class BST {
         }
     }
 
+    // Searches the tree and returns true if the element exists in the tree
+    // Precondition: key is an integer
+    // Postcondition: returns a boolean indicating whether the element exists
     boolean search(int key) {
         Node curr = root;
 
@@ -46,6 +52,9 @@ class BST {
         return false;
     }
 
+    // Removes an element from the tree, maintaining tree structure
+    // Precondition: element is in the tree
+    // Postcondition: returns the removed element
     int remove(int key) {
         Node curr = root;
 
@@ -108,6 +117,9 @@ class BST {
         return Integer.MIN_VALUE;
     }
 
+    // Returns a layer-based string representation of the tree, where each newline is a different layer
+    // Precondition: tree is a valid BST
+    // Postcondition: returns a string represtation of the tree
     public String toString() {
         String treeString = "";
         ArrayList<Node> currLayer = new ArrayList<Node>();
