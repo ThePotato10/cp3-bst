@@ -144,4 +144,69 @@ class BST {
 
         return treeString;
     }
+
+    public boolean isBSTOrNot() {
+        return isBSTOrNot(this.root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private boolean isBSTOrNot(Node root, int minValue, int maxValue) {
+        // check for root is not null or not
+        if (root == null) {
+            return true;
+        }
+        // check for current node value with left node value and right node value and recursively check for left sub tree and right sub tree
+        if(root.data >= minValue && root.data <= maxValue && isBSTOrNot(root.left, minValue, root.data) && isBSTOrNot(root.right, root.data, maxValue)){
+            return true;
+        }
+        return false;
+    }
+
+ 
+
+   // please use the following pieces of code to display your tree in a more easy to follow style (Note* you'll need to place the Trunk class in it's own file)
+    public static void showTrunks(Trunk p) {
+        if (p == null) {
+            return;
+        }
+ 
+        showTrunks(p.prev);
+        System.out.print(p.str);
+    }
+ 
+    public void printTree() {
+        printTree(root, null, false);
+    }
+
+    private void printTree(Node root, Trunk prev, boolean isLeft) {
+        if (root == null) {
+            return;
+        }
+ 
+        String prev_str = "    ";
+        Trunk trunk = new Trunk(prev, prev_str);
+ 
+        printTree(root.right, trunk, true);
+ 
+        if (prev == null) {
+            trunk.str = "———";
+        }
+        else if (isLeft) {
+            trunk.str = ".———";
+            prev_str = "   |";
+        }
+        else {
+            trunk.str = "`———";
+            prev.str = prev_str;
+        }
+ 
+        showTrunks(trunk);
+        System.out.println(" " + root.data);
+ 
+        if (prev != null) {
+            prev.str = prev_str;
+        }
+        trunk.str = "   |";
+ 
+        printTree(root.left, trunk, false);
+    }
 }
