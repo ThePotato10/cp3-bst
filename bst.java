@@ -155,7 +155,7 @@ class BST {
             return true;
         }
         // check for current node value with left node value and right node value and recursively check for left sub tree and right sub tree
-        if(root.data >= minValue && root.data <= maxValue && isBSTOrNot(root.left, minValue, root.data) && isBSTOrNot(root.right, root.data, maxValue)){
+        if(root.key >= minValue && root.key <= maxValue && isBSTOrNot(root.left, minValue, root.key) && isBSTOrNot(root.right, root.key, maxValue)){
             return true;
         }
         return false;
@@ -200,7 +200,7 @@ class BST {
         }
  
         showTrunks(trunk);
-        System.out.println(" " + root.data);
+        System.out.println(" " + root.key);
  
         if (prev != null) {
             prev.str = prev_str;
@@ -208,5 +208,17 @@ class BST {
         trunk.str = "   |";
  
         printTree(root.left, trunk, false);
+    }
+
+    // Clockwise rotation of a node
+    private void rotateRight(Node subRoot, Node prev) {
+        Node temp = subRoot.left;
+        subRoot.left = subRoot.left.right;
+
+        temp.right = subRoot;
+        subRoot = temp;
+
+        if (prev.key < subRoot.key) prev.right = subRoot;
+        else prev.left = subRoot;
     }
 }
