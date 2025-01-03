@@ -246,6 +246,9 @@ class BST {
         }
     }
 
+    // Returns the height of a given node in a tree, leafs have height = 0
+    // Precondition: node is a valid node in the tree
+    // Postcondition: the height of that node
     public int height(Node node) {
         int height = 0;
 
@@ -266,9 +269,12 @@ class BST {
             height++;
         }
 
-        return height;
+        return height - 1;
     }
 
+    // Returns the balance of the tree at a given node, left minus right
+    // Precondition: node is a valid node in the tree
+    // Postcondition: the balance of node
     public int balance(Node node) {
         return countDown(node.left) - countDown(node.right);
     }
