@@ -10,7 +10,7 @@ class BST {
     // Inserts an element into the correct position in the BST
     // Precondition: curr is either a valid tree node or null
     // Postcondition: element is inserted, nothing is returned
-    void insert(int key, Node curr) {
+    private void insert(int key, Node curr) {
         if (root == null) {
             root = new Node(key);
 
@@ -32,10 +32,14 @@ class BST {
         }
     }
 
+    public void insert(int key) {
+        insert(key, null);
+    }
+
     // Searches the tree and returns true if the element exists in the tree
     // Precondition: key is an integer
     // Postcondition: returns a boolean indicating whether the element exists
-    boolean search(int key) {
+    public boolean search(int key) {
         Node curr = root;
 
         while (curr != null) {
@@ -55,7 +59,7 @@ class BST {
     // Removes an element from the tree, maintaining tree structure
     // Precondition: element is in the tree
     // Postcondition: returns the removed element
-    int remove(int key) {
+    public int remove(int key) {
         Node curr = root;
 
         while (curr.left != null || curr.right != null) {
@@ -240,5 +244,45 @@ class BST {
             if (prev.key < subRoot.key) prev.right = subRoot;
             else prev.left = subRoot;
         }
+    }
+
+    public int height(Node node) {
+        int height = 0;
+
+        ArrayList<Node> currLayer = new ArrayList<Node>();
+        
+        currLayer.add(node);
+
+        while (!currLayer.stream().allMatch(x -> x == null)) {
+            ArrayList<Node> nextLayer = new ArrayList<Node>();
+
+            for (int i = 0; i < currLayer.size(); i++) {
+                if (currLayer.get(i) != null) {
+                    nextLayer.add(currLayer.get(i).left);
+                    nextLayer.add(currLayer.get(i).right);
+                }
+            }
+
+            currLayer = nextLayer;
+            height++;
+        }
+
+        return height;
+    }
+
+    public int balance(Node node) {
+        return countDown(node.left) - countDown(node.right);
+    }
+
+    private int countDown(Node node) {
+        System.out.println("recursive call");
+        int down = 0;
+
+        if (node == null) return 0;
+
+        if (node.left != null) down += (1 + countDown(node.left));
+        if (node.right != null) down += (1 + countDown(node.right));
+
+        return down;
     }
 }
