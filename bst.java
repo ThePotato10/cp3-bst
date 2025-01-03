@@ -218,7 +218,27 @@ class BST {
         temp.right = subRoot;
         subRoot = temp;
 
-        if (prev.key < subRoot.key) prev.right = subRoot;
-        else prev.left = subRoot;
+        if (prev == null) {
+            root = subRoot;
+        } else {
+            if (prev.key < subRoot.key) prev.right = subRoot;
+            else prev.left = subRoot;
+        }
+    }
+
+    // Counterclockwise rotation of a node
+    private void rotateLeft(Node subRoot, Node prev) {
+        Node temp = subRoot.right;
+        subRoot.right = subRoot.right.left;
+
+        temp.left = subRoot;
+        subRoot = temp;
+
+        if (prev == null) {
+            root = subRoot;
+        } else {
+            if (prev.key < subRoot.key) prev.right = subRoot;
+            else prev.left = subRoot;
+        }
     }
 }
