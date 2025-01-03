@@ -249,8 +249,7 @@ class BST {
     public int height(Node node) {
         int height = 0;
 
-        ArrayList<Node> currLayer = new ArrayList<Node>();
-        
+        ArrayList<Node> currLayer = new ArrayList<Node>();        
         currLayer.add(node);
 
         while (!currLayer.stream().allMatch(x -> x == null)) {
