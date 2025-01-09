@@ -276,7 +276,7 @@ class BST {
     // Precondition: node is a valid node in the tree
     // Postcondition: the balance of node
     public int balance(Node node) {
-        return countDown(node.left) - countDown(node.right);
+        return countDown(node.right) - countDown(node.left);
     }
 
     private int countDown(Node node) {
