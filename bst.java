@@ -1,7 +1,10 @@
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Stack;
 
 class BST {
     public Node root;
+    private Stack<Node> insertTraversal = new Stack<Node>();
 
     public BST() {
         root = null;
@@ -16,24 +19,51 @@ class BST {
 
         } else {
             if (curr == null) curr = root;
-            
+
+            insertTraversal.push(curr);
+
+            // Do the insertions
             if (key < curr.key) {
                 // Go left
+
                 if (curr.left == null) curr.left = new Node(key);
                 else insert(key, curr.left);
                 
             } else {
                 // Go right
-                if (curr.right == null) curr.right = new Node(key);
+                if (curr.right == null) {
+                    curr.right = new Node(key);
+                }
                 else insert(key, curr.right);
 
             }
-
         }
     }
 
     public void insert(int key) {
+        insertTraversal = new Stack<Node>();
+        insertTraversal.push(null);
+
         insert(key, null);
+
+        for (int i = 0; i < insertTraversal.size() - 1; i++) {
+            Node curr = insertTraversal.get(i);
+            Node prev = insertTraversal.get(i + 1);
+
+            if (balance(curr) >= 2) {
+                if (balance(curr.left) <= -1) {
+                    // LR
+                } else {
+                    // LL
+                }
+            } else if (balance(curr) <= -2) {
+                if (balance(curr.left) >= 1) {
+                    // RL
+                } else {
+                    // RR
+                }
+            }
+        }
     }
 
     // Searches the tree and returns true if the element exists in the tree
@@ -216,6 +246,8 @@ class BST {
 
     // Clockwise rotation of a node
     private void rotateRight(Node subRoot, Node prev) {
+        System.out.println(subRoot.key);
+
         Node temp = subRoot.left;
         subRoot.left = subRoot.left.right;
 
@@ -276,11 +308,10 @@ class BST {
     // Precondition: node is a valid node in the tree
     // Postcondition: the balance of node
     public int balance(Node node) {
-        return countDown(node.right) - countDown(node.left);
+        return countDown(node.left) - countDown(node.right);
     }
 
     private int countDown(Node node) {
-        System.out.println("recursive call");
         int down = 0;
 
         if (node == null) return 0;
