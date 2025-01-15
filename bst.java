@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Stack;
 
 class BST {
@@ -42,28 +41,9 @@ class BST {
 
     public void insert(int key) {
         insertTraversal = new Stack<Node>();
-        insertTraversal.push(null);
 
         insert(key, null);
-
-        for (int i = 0; i < insertTraversal.size() - 1; i++) {
-            Node curr = insertTraversal.get(i);
-            Node prev = insertTraversal.get(i + 1);
-
-            if (balance(curr) >= 2) {
-                if (balance(curr.left) <= -1) {
-                    // LR
-                } else {
-                    // LL
-                }
-            } else if (balance(curr) <= -2) {
-                if (balance(curr.left) >= 1) {
-                    // RL
-                } else {
-                    // RR
-                }
-            }
-        }
+        rebalance();
     }
 
     // Searches the tree and returns true if the element exists in the tree
@@ -90,9 +70,12 @@ class BST {
     // Precondition: element is in the tree
     // Postcondition: returns the removed element
     public int remove(int key) {
+        insertTraversal = new Stack<Node>();
         Node curr = root;
 
         while (curr.left != null || curr.right != null) {
+            insertTraversal.push(curr);
+            
             if (curr.left != null && curr.left.key == key) {
                 int val = curr.left.key;
 
@@ -149,6 +132,31 @@ class BST {
         }
 
         return Integer.MIN_VALUE;
+    }
+
+    private void rebalance() {
+        insertTraversal.push(null);
+
+        while(!insertTraversal.isEmpty()) {
+            Node curr = insertTraversal.pop();
+            if(curr!= null)
+            System.out.println(curr.key);
+            if (balance(curr) >= 2) {
+                if (balance(curr.left) <= -1) {
+                    rotateLeft(insertTraversal.peek(), curr);
+                    rotateRight(curr, insertTraversal.peek());
+                } else {
+                    rotateRight(curr, insertTraversal.peek());
+                }
+            } else if (balance(curr) <= -2) {
+                if (balance(curr.right) >= 1) {
+                    rotateRight(insertTraversal.peek(), curr);
+                    rotateLeft(curr, insertTraversal.peek());
+                } else {
+                    rotateLeft(curr, insertTraversal.peek());
+                }
+            }
+        }
     }
 
     // Returns a layer-based string representation of the tree, where each newline is a different layer
@@ -308,6 +316,7 @@ class BST {
     // Precondition: node is a valid node in the tree
     // Postcondition: the balance of node
     public int balance(Node node) {
+        if (node == null) return 0;
         return countDown(node.left) - countDown(node.right);
     }
 
